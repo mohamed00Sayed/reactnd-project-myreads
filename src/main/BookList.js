@@ -7,9 +7,19 @@ class BookList extends Component{
 		return(
 			<div className="bookshelf-books">
 				<ol className="books-grid">
-					<li><Book /></li>
-					<li><Book /></li>
+					{
+						this.props.booklist.map((book) => (
+							<li>
+								<Book 
+									title={book.title}
+									author={book.author}
+									imgURL={book.imgURL}
+								/>
+							</li>
+						))
+					}
 				</ol>
+				
 			</div>
 		)
 	}
