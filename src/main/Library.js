@@ -5,8 +5,7 @@ class Library extends Component{
 	
 	render(){
 		return(
-			<div>
-				<h4>Library Component</h4>
+			<div className="list-books-content">
 				<Shelf />
 				<Shelf />
 				<Shelf />
