@@ -7,7 +7,6 @@ class Main extends Component{
 	render(){
 		return(
 			<div>
-				<h3>Main Component</h3>
 				<Header />
 				<Library />
 			</div>
