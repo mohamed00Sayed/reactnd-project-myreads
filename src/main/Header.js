@@ -4,7 +4,9 @@ class Header extends Component{
 	
 	render(){
 		return(
-			<div>Header Component</div>
+			<div className="list-books-title">
+				<h1>MyReads</h1>
+			</div>
 		)
 	}
 }
