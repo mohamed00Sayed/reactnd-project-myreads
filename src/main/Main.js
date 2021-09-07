@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Header from './Header'
+import Library from './Library'
 
 class Main extends Component{
 	
@@ -8,6 +9,7 @@ class Main extends Component{
 			<div>
 				<h3>Main Component</h3>
 				<Header />
+				<Library />
 			</div>
 		)
 	}
