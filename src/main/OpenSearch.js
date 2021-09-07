@@ -5,7 +5,7 @@ class OpenSearch extends Component{
 	render(){
 		return(
 			<div className="open-search">
-				<button onClick={()=> {this.props.onAdd()}}>Add a book</button>
+				<a onClick={()=> {this.props.onAdd()}}>Add a book</a>
 			</div>
 		)
 	}
