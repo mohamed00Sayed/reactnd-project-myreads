@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Header from './Header'
 import Library from './Library'
+import OpenSearch from './OpenSearch'
 
 class Main extends Component{
 	
@@ -9,6 +10,7 @@ class Main extends Component{
 			<div className="list-books">
 				<Header />
 				<Library />
+				<OpenSearch onAdd={this.props.onAdd}/>
 			</div>
 		)
 	}

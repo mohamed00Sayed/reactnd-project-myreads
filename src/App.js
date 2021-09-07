@@ -3,6 +3,7 @@ import React from 'react'
 import './App.css'
 import Main from './main/Main'
 import Search from './search/Search'
+import { Route } from 'react-router-dom'
 
 class BooksApp extends React.Component {
   state = {
@@ -18,8 +19,12 @@ class BooksApp extends React.Component {
   render() {
     return (
 		<div>
-			<Main />
-			<Search />
+			<Route exact path='/' render={({ history })=> (
+				<Main 
+					onAdd={()=> {history.push('/search')}}
+				/>
+			)} />
+			<Route path='/search' render={()=> (<Search />)} />
 		</div>
     )
   }
