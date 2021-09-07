@@ -5,8 +5,8 @@ class Shelf extends Component{
 	
 	render(){
 		return(
-			<div>
-				<h5>Shelf Component</h5>
+			<div className="bookshelf">
+				<h2 className="bookshelf-title">Currently Reading</h2>
 				<BookList />
 			</div>
 		)
