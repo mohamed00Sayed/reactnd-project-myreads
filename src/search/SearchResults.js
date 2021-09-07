@@ -5,9 +5,9 @@ class SearchResults extends Component{
 	
 	render(){
 		return(
-			<div>
+			<div className="search-books-results">
 				<h4>Search Results Component</h4>
-				<ol>
+				<ol className="books-grid">
 					<li><Book /></li>
 					<li><Book /></li>
 				</ol>
