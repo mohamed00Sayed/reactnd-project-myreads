@@ -5,10 +5,11 @@ class BookList extends Component{
 	
 	render(){
 		return(
-			<div>
-				<h6>BookList Component</h6>
-				<Book />
-				<Book />
+			<div className="bookshelf-books">
+				<ol className="books-grid">
+					<li><Book /></li>
+					<li><Book /></li>
+				</ol>
 			</div>
 		)
 	}
