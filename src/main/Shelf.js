@@ -4,11 +4,11 @@ import BookList from './BookList'
 class Shelf extends Component{	
 	
 	render(){
-		const { shelfData } = this.props
+		const { shelfTitle, booklist, changeShelf } = this.props
 		return(
 			<div className="bookshelf">
-				<h2 className="bookshelf-title">{shelfData.title}</h2>
-				<BookList booklist={shelfData.booklist}/>
+				<h2 className="bookshelf-title">{shelfTitle}</h2>
+				<BookList books={booklist} changeShelf={changeShelf}/>
 			</div>
 		)
 	}
