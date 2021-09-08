@@ -1,11 +1,25 @@
 import React, { Component } from 'react'
 import Shelf from './Shelf'
-import { getAll } from '../BooksAPI'
+import { getAll, update } from '../BooksAPI'
+
+/*
+{id: '6ddhsje', title: 'Needful Things', authors: ['Stephen King'], imageLinks:{thumbnail: 'http://books.google.com/books/content?id=jAUODAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'}},
+{id: '8eer', title: 'React', authors: ['Nils Hartmann'], imageLinks:{thumbnail: 'http://books.google.com/books/content?id=IOejDAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api'}},
+{id: '9suein', title: 'Satire TV', authors: ['Jonathan Gray'], imageLinks: {thumbnail: 'http://books.google.com/books/content?id=1wy49i-gQjIC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'}}
+===================
+{id: '1dfd', title: 'The Linux Command Line', authors: ['William E. Shotts, Jr.'], imageLinks: {thumbnail: 'http://books.google.com/books/content?id=nggnmAEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api'}},
+{id: '2dss', title: 'Learning Web Development with React and Bootstrap', authors: ['Harmeet Singh'], imageLinks: {thumbnail:'http://books.google.com/books/content?id=sJf1vQAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api'}}
+====================
+{id:'55adf', title: 'The Cuckoo\'s Calling', authors: ['Robert Galbraith'], imageLinks:{thumbnail:'http://books.google.com/books/content?id=evuwdDLfAyYC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'}},
+{id: '5dd6s', title: 'Lords of Finance', authors: ['Liaquat Ahamed'], imageLinks:{thumbnail: 'http://books.google.com/books/content?id=74XNzF_al3MC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'}}
+
+*/
 
 class Library extends Component{
 	constructor(props){
 		super(props)
 		this.changeShelf = this.changeShelf.bind(this)
+		this.removeFromShelf = this.removeFromShelf.bind(this)
 	}
 	
 	state = {
@@ -13,27 +27,17 @@ class Library extends Component{
 		currentlyReading:  {
 			id: 'currentlyReading',
 			title: 'Currently Reading',
-			booklist: [
-				{id: '1dfd', title: 'The Linux Command Line', authors: ['William E. Shotts, Jr.'], imageLinks: {thumbnail: 'http://books.google.com/books/content?id=nggnmAEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api'}},
-				{id: '2dss', title: 'Learning Web Development with React and Bootstrap', authors: ['Harmeet Singh'], imageLinks: {thumbnail:'http://books.google.com/books/content?id=sJf1vQAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api'}}
-			]
+			booklist: []
 		},
 		wantToRead: {
 			id: 'wantToRead',
 			title: 'Want to Read',
-			booklist: [
-				{id:'55adf', title: 'The Cuckoo\'s Calling', authors: ['Robert Galbraith'], imageLinks:{thumbnail:'http://books.google.com/books/content?id=evuwdDLfAyYC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'}},
-				{id: '5dd6s', title: 'Lords of Finance', authors: ['Liaquat Ahamed'], imageLinks:{thumbnail: 'http://books.google.com/books/content?id=74XNzF_al3MC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'}}
-			]
+			booklist: []
 		},
 		read: {
 			id: 'read',
 			title: 'Read',
-			booklist: [
-				{id: '6ddhsje', title: 'Needful Things', authors: ['Stephen King'], imageLinks:{thumbnail: 'http://books.google.com/books/content?id=jAUODAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'}},
-				{id: '8eer', title: 'React', authors: ['Nils Hartmann'], imageLinks:{thumbnail: 'http://books.google.com/books/content?id=IOejDAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api'}},
-				{id: '9suein', title: 'Satire TV', authors: ['Jonathan Gray'], imageLinks: {thumbnail: 'http://books.google.com/books/content?id=1wy49i-gQjIC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'}}
-			]
+			booklist: []
 		}
 	}
 	
@@ -104,6 +108,56 @@ class Library extends Component{
 		})
 	}
 
+	removeFromShelf = (shelf, bookID)=>{
+		let other1
+		let other2
+		if(shelf === 'currentlyReading'){
+			other1 = 'read'
+			other2 = 'wantToRead'
+		}
+		else if(shelf === 'wantToRead'){
+			other1 = 'currentlyReading'
+			other2 = 'read'
+		}
+		else if(shelf === 'read'){
+			other1 = 'currentlyReading'
+			other2 = 'wantToRead'
+		}
+		
+		
+		this.setState((prev) => {
+			let removedBook
+			const newShelfBooks = prev[shelf].booklist.filter((book)=> {
+				if(book.id !== bookID){
+					return book
+				}else{
+					removedBook = book
+				}
+			})
+			update(removedBook, 'none')
+			
+			return ({
+				books: [...newShelfBooks, ...prev[other1].booklist, ...prev[other2].booklist],
+				[shelf]: {
+					id: prev[shelf].id,
+					title: prev[shelf].title,
+					booklist: newShelfBooks
+				},
+				[other1]: {
+					id: prev[other1].id,
+					title: prev[other1].title,
+					booklist: prev[other1].booklist
+				},
+				[other2]: {
+					id: prev[other2].id,
+					title: prev[other2].title,
+					booklist: prev[other2].booklist
+				}
+				
+			})
+			
+		})
+	}
 	
 	categorizeBooks = (books)=>{
 		let ofCurrentlyReading = []
@@ -164,16 +218,19 @@ class Library extends Component{
 					shelfTitle={this.state.currentlyReading.title} 
 					booklist={this.state.currentlyReading.booklist} 
 					changeShelf={this.changeShelf}
+					onNone={this.removeFromShelf}
 				/>
 				<Shelf 
 					shelfTitle={this.state.wantToRead.title}
 					booklist={this.state.wantToRead.booklist}
 					changeShelf={this.changeShelf}
+					onNone={this.removeFromShelf}
 				/>
 				<Shelf 
 					shelfTitle={this.state.read.title} 
 					booklist={this.state.read.booklist}
 					changeShelf={this.changeShelf}
+					onNone={this.removeFromShelf}
 				/>
 			</div>
 		)

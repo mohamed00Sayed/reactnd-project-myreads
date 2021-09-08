@@ -5,7 +5,7 @@ class BookList extends Component{
 	
 	render(){
 		
-		const { books, changeShelf } = this.props
+		const { books, changeShelf, onNone } = this.props
 		return(
 			<div className="bookshelf-books">
 				<ol className="books-grid">
@@ -19,6 +19,8 @@ class BookList extends Component{
 									id={book.id}
 									changeShelf={changeShelf}
 									selectedOpt={book.shelf}
+									onNone={onNone}
+									onMain={true}
 								/>
 							</li>
 						))
