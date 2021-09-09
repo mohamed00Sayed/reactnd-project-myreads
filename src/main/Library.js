@@ -2,18 +2,11 @@ import React, { Component } from 'react'
 import Shelf from './Shelf'
 import { getAll, update } from '../BooksAPI'
 
-/*
-{id: '6ddhsje', title: 'Needful Things', authors: ['Stephen King'], imageLinks:{thumbnail: 'http://books.google.com/books/content?id=jAUODAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'}},
-{id: '8eer', title: 'React', authors: ['Nils Hartmann'], imageLinks:{thumbnail: 'http://books.google.com/books/content?id=IOejDAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api'}},
-{id: '9suein', title: 'Satire TV', authors: ['Jonathan Gray'], imageLinks: {thumbnail: 'http://books.google.com/books/content?id=1wy49i-gQjIC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'}}
-===================
-{id: '1dfd', title: 'The Linux Command Line', authors: ['William E. Shotts, Jr.'], imageLinks: {thumbnail: 'http://books.google.com/books/content?id=nggnmAEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api'}},
-{id: '2dss', title: 'Learning Web Development with React and Bootstrap', authors: ['Harmeet Singh'], imageLinks: {thumbnail:'http://books.google.com/books/content?id=sJf1vQAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api'}}
-====================
-{id:'55adf', title: 'The Cuckoo\'s Calling', authors: ['Robert Galbraith'], imageLinks:{thumbnail:'http://books.google.com/books/content?id=evuwdDLfAyYC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'}},
-{id: '5dd6s', title: 'Lords of Finance', authors: ['Liaquat Ahamed'], imageLinks:{thumbnail: 'http://books.google.com/books/content?id=74XNzF_al3MC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api'}}
-
-*/
+const shelves = {
+	currentlyReading: ['Currently Reading', 'currentlyReading'],
+	wantToRead: ['Want to Read', 'wantToRead'],
+	read: ['Read', 'read']
+}
 
 class Library extends Component{
 	constructor(props){
@@ -25,41 +18,41 @@ class Library extends Component{
 	state = {
 		books: [],
 		currentlyReading:  {
-			id: 'currentlyReading',
-			title: 'Currently Reading',
+			id: shelves.currentlyReading[1],
+			title: shelves.currentlyReading[0],
 			booklist: []
 		},
 		wantToRead: {
-			id: 'wantToRead',
-			title: 'Want to Read',
+			id: shelves.wantToRead[1],
+			title: shelves.wantToRead[0],
 			booklist: []
 		},
 		read: {
-			id: 'read',
-			title: 'Read',
+			id: shelves.read[1],
+			title: shelves.read[0],
 			booklist: []
 		}
 	}
 	
 	knowOtherShelf = (oldShelf, newShelf)=>{
 		let otherShelf
-		if(oldShelf === 'currentlyReading' && newShelf === 'wantToRead'){
-			otherShelf = 'read'
+		if(oldShelf === shelves.currentlyReading[1] && newShelf === shelves.wantToRead[1]){
+			otherShelf = shelves.read[1]
 		}
-		else if(oldShelf === 'currentlyReading' && newShelf === 'read'){
-			otherShelf = 'wantToRead'
+		else if(oldShelf === shelves.currentlyReading[1] && newShelf === shelves.read[1]){
+			otherShelf = shelves.wantToRead[1]
 		}
-		else if(oldShelf === 'wantToRead' && newShelf === 'currentlyReading'){
-			otherShelf = 'read'
+		else if(oldShelf === shelves.wantToRead[1] && newShelf === shelves.currentlyReading[1]){
+			otherShelf = shelves.read[1]
 		}
-		else if(oldShelf === 'wantToRead' && newShelf === 'read'){
-			otherShelf = 'currentlyReading'
+		else if(oldShelf === shelves.wantToRead[1] && newShelf === shelves.read[1]){
+			otherShelf = shelves.currentlyReading[1]
 		}
-		else if(oldShelf === 'read' && newShelf === 'currentlyReading'){
-			otherShelf = 'wantToRead'
+		else if(oldShelf === shelves.read[1] && newShelf === shelves.currentlyReading[1]){
+			otherShelf = shelves.wantToRead[1]
 		}
-		else if(oldShelf === 'read' && newShelf === 'wantToRead'){
-			otherShelf = 'currentlyReading'
+		else if(oldShelf === shelves.read[1] && newShelf === shelves.wantToRead[0]){
+			otherShelf = shelves.currentlyReading[1]
 		}
 		
 		return otherShelf
@@ -74,7 +67,6 @@ class Library extends Component{
 			prev.books.map((book)=>{
 				if(book.id === bookID){
 					removedBook = book
-					console.log('book id:' + book.id)
 				}
 			})
 
@@ -111,17 +103,17 @@ class Library extends Component{
 	removeFromShelf = (shelf, bookID)=>{
 		let other1
 		let other2
-		if(shelf === 'currentlyReading'){
-			other1 = 'read'
-			other2 = 'wantToRead'
+		if(shelf === shelves.currentlyReading[1]){
+			other1 = shelves.read[1]
+			other2 = shelves.wantToRead[1]
 		}
-		else if(shelf === 'wantToRead'){
-			other1 = 'currentlyReading'
-			other2 = 'read'
+		else if(shelf === shelves.wantToRead[1]){
+			other1 = shelves.currentlyReading[1]
+			other2 = shelves.read[1]
 		}
-		else if(shelf === 'read'){
-			other1 = 'currentlyReading'
-			other2 = 'wantToRead'
+		else if(shelf === shelves.read[1]){
+			other1 = shelves.currentlyReading[1]
+			other2 = shelves.wantToRead[1]
 		}
 		
 		
@@ -164,13 +156,13 @@ class Library extends Component{
 		let ofWantToRead = []
 		let ofRead = []
 		books.map((book)=> {
-			if(book.shelf === 'currentlyReading'){
+			if(book.shelf === shelves.currentlyReading[1]){
 				ofCurrentlyReading.push(book)
 			}
-			else if(book.shelf === 'wantToRead'){
+			else if(book.shelf === shelves.wantToRead[1]){
 				ofWantToRead.push(book)
 			}
-			else if (book.shelf === 'read'){
+			else if (book.shelf === shelves.read[1]){
 				ofRead.push(book)
 			}
 		})
@@ -179,7 +171,6 @@ class Library extends Component{
 	}
 	
 	componentDidMount(){
-		console.log('in componentDidMount')
 		getAll().then((theBooks)=> {
 			const { ofCurrentlyReading, ofWantToRead, ofRead } = this.categorizeBooks(theBooks)
 			this.setState((prev) => {
@@ -209,9 +200,6 @@ class Library extends Component{
 	
 	render(){
 		
-		//console.log(this.state.currentlyReading.booklist)
-		//console.log(this.state.wantToRead.booklist)
-		//console.log(this.state.read.booklist)
 		return(
 			<div className="list-books-content">
 				<Shelf 

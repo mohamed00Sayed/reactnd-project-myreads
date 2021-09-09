@@ -14,8 +14,8 @@ class BookList extends Component{
 							<li key={book.id}>
 								<Book 
 									title={book.title}
-									author={book.authors[0]}
-									imgURL={book.imageLinks.thumbnail}
+									authors={book.authors}
+									imageLinks={book.imageLinks}
 									id={book.id}
 									changeShelf={changeShelf}
 									selectedOpt={book.shelf}
