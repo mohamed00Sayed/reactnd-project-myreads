@@ -3,17 +3,14 @@ import Header from './Header'
 import Library from './Library'
 import OpenSearch from './OpenSearch'
 
-class Main extends Component{
-	
-	render(){
-		return(
-			<div className="list-books">
-				<Header />
-				<Library />
-				<OpenSearch onAdd={this.props.onAdd}/>
-			</div>
-		)
-	}
+function Main(props){
+	return(
+		<div className="list-books">
+			<Header />
+			<Library />
+			<OpenSearch onAdd={props.onAdd}/>
+		</div>
+	)
 }
 
 export default Main

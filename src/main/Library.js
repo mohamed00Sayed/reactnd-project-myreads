@@ -79,6 +79,7 @@ class Library extends Component{
 			removedBook.shelf = newShelf
 			const newBooksofNewShelf = prev[newShelf].booklist
 			newBooksofNewShelf.push(removedBook)
+			update(removedBook, newShelf)
 			
 			return{
 				[oldShelf] :  {
