@@ -51,7 +51,7 @@ class Library extends Component{
 		else if(oldShelf === shelves.read[1] && newShelf === shelves.currentlyReading[1]){
 			otherShelf = shelves.wantToRead[1]
 		}
-		else if(oldShelf === shelves.read[1] && newShelf === shelves.wantToRead[0]){
+		else if(oldShelf === shelves.read[1] && newShelf === shelves.wantToRead[1]){
 			otherShelf = shelves.currentlyReading[1]
 		}
 		
