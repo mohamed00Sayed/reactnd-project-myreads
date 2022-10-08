@@ -5,7 +5,7 @@ import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 
 ReactDOM.render(
-	<BrowserRouter basename="my-reads-library-ms.netlify.app">
+	<BrowserRouter>
 		<App />
 	</BrowserRouter>
 	, document.getElementById('root'))
